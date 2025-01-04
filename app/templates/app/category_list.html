@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .actions {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .actions a {
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 10px 15px;
+            color: white;
+            background-color: #007bff;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        ul li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        ul li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        ul li a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Category List</h1>
+    {% if categories %}
+    <ul>
+      {% for category in categories %}
+        <li>
+          <a href="{% url 'category-detail' category.pk %}">{{ category.name }}</a> - {{ category.description }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No categories available. Please add some!</p>
+  {% endif %}
+  
+    <div class="actions">
+        <a href="{% url 'category-add' %}">Add New Category</a>
+        <a href="{% url 'product-list' %}">Cancel</a>
+    </div>
+</body>
+</html>

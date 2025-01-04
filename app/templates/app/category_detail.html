@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .category-details {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-details p {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .category-details p span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        .actions a.edit {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .actions a.edit:hover {
+            background-color: #e0a800;
+        }
+
+        .actions a.delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .actions a.delete:hover {
+            background-color: #c82333;
+        }
+
+        .actions a.back {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .actions a.back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ category.name }}</h1>
+    <div class="category-details">
+        <p><span>Description:</span> {{ category.description }}</p>
+        <div class="actions">
+            <a href="{% url 'category-edit' category.pk %}" class="edit">Edit</a>
+            <a href="{% url 'category-delete' category.pk %}" class="delete">Delete</a>
+            <a href="{% url 'category-list' %}" class="back">Back to List</a>
+        </div>
+    </div>
+</body>
+</html>
