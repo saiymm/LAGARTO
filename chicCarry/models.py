@@ -134,4 +134,4 @@ class Wishlist(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.product.name} in {secd..lf.user.username}\'s wishlist'
+        return f'{self.product.name} in {self.user.username}\'s wishlist'
