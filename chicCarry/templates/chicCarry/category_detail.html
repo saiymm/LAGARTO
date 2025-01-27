@@ -1,0 +1,72 @@
+{% extends 'chicCarry/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+
+        .content {
+            margin-left: 180px;
+            padding-left: 20px;
+        }
+
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .category-details {
+            padding: 20px;
+        }
+
+        .category-details p {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .category-details p span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+
+    </style>
+</head>
+<body class="content">
+    <div class="container">
+        <h1>{{ category.name }}</h1>
+        <div class="category-details">
+            <p><span>Description:</span> {{ category.description }}</p>
+            <div class="actions">
+                <a class="btn btn-primary" href="{% url 'category-edit' category.pk %}" class="edit">Edit</a>
+                <a class="btn btn-danger" href="{% url 'category-delete' category.pk %}" class="delete">Delete</a>
+                <a class="btn btn-secondary" href="{% url 'category-list' %}" class="back">Back to List</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

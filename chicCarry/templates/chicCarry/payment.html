@@ -1,0 +1,211 @@
+{% extends 'chicCarry/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .payment-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .payment-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .payment-header h1 {
+      font-size: 1.8em;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
+    }
+
+    .section-heading {
+      font-size: 1.5em;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .cart-item-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .cart-item p {
+      margin: 0;
+      font-size: 1.1em;
+    }
+
+    .cart-item-price {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #fb6f92;
+    }
+
+    .total-price {
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #ff8fab;
+      text-align: right;
+    }
+
+    .address-item-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .address-item {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .address-item label {
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .address-item input[type="radio"] {
+      margin-right: 15px;
+    }
+
+    .payment-method-section {
+      margin-bottom: 30px;
+    }
+
+    .payment-method-section select {
+      width: 100%;
+      font-size: 0.9em;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fafafa;
+      margin-top: 10px;
+      height: 50px;
+    }
+
+    .payment-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.3em;
+      color: #fff;
+      background-color: #fb6f92;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-btn:hover {
+      background-color: #f14f7d;
+    }
+
+    .payment-btn:active {
+      background-color: #d84b72;
+    }
+
+    .payment-btn:disabled {
+      background-color: #b2b2b2;
+      cursor: not-allowed;
+    }
+
+    a {
+      color: #fb6f92;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="payment-container">
+  <div class="payment-header">
+    <h1>Complete Your Payment</h1>
+  </div>
+
+  <div class="form-section">
+    <h2 class="section-heading">Your Cart</h2>
+    <ul class="cart-item-list">
+      {% for item in cart.cart_items.all %}
+        <li class="cart-item">
+          <p>{{ item.product.name }} - {{ item.quantity }} x {{ item.product.price }}</p>
+          <span class="cart-item-price">{{ item.product.price|floatformat:2 }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="total-price">Total Price: {{ total_price|floatformat:2 }}</p>
+  </div>
+
+  <div class="form-section">
+    <h2 class="section-heading">Select Shipping Address</h2>
+    <h3>Your Addresses:</h3>
+    <a href="{% url 'address_create' %}">Add a new address</a>
+    <form method="post">
+      {% csrf_token %}
+      <ul class="address-item-list">
+        {% for address in addresses %}
+          <li class="address-item">
+            <input type="radio" name="address_id" value="{{ address.id }}" required>
+            <label>{{ address.full_name }} - {{ address.street_address }}, {{ address.city }}, {{ address.state }}, {{ address.country }}</label>
+          </li>
+        {% endfor %}
+      </ul>
+  </div>
+
+  <div class="payment-method-section">
+    <h2 class="section-heading">Payment Method</h2>
+    <p>Select your preferred payment method:</p>
+    <select name="payment_method" class="form-control" required>
+      {% for method, label in payment_methods %}
+        <option value="{{ method }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-section">
+    <button type="submit" class="payment-btn">Pay Now</button>
+  </div>
+
+  </form>
+</div>  
+
+</body>
+</html>
+
+{% endblock %}

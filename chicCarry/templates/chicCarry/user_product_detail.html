@@ -1,0 +1,296 @@
+{% extends 'chicCarry/base.html' %}
+
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Product Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .product-detail-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #fff;
+            margin: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .product-detail {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .product-info {
+            padding-left: 30px;
+            flex-grow: 1;
+            color: #555;
+        }
+
+        .product-info h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            color: #e53935;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .description {
+            font-size: 1rem;
+            margin: 15px 0;
+            line-height: 1.7;
+            color: #666;
+        }
+
+        .reviews {
+            margin-top: 30px;
+        }
+
+        .review {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            margin-top: 10px;
+            resize: vertical;
+            background-color: #f9f9f9;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .star-rating {
+            display: inline-block;
+            font-size: 58px;
+            direction: ltr;
+        }
+
+        .star {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .star:hover {
+            color: #f1c40f;  /* Highlight the star on hover */
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .form-submit-btn {
+            display: flex;
+            justify-content: center;
+        }
+
+        .star-rating-wrapper {
+            display: flex;
+            gap: 5px;
+        }
+
+        .review-meta {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .button-container form {
+            flex-grow: 1;
+        }
+
+        .btn {
+            background-color: #333;
+            color: white;
+            padding: 12px 25px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            margin: 0;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #fb6f92;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-detail-container">
+        <div class="product-detail">
+            <div class="product-image">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img src="https://via.placeholder.com/500x500.png?text=No+Image+Available" alt="No image available">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p class="price">${{ product.price }}</p>
+                <p class="description">{{ product.description }}</p>
+
+
+                <div class="button-container">
+                    <!-- Add to Cart Button -->
+                    <form action="{% url 'add_to_cart' product_id=product.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Add to Cart</button>
+                    </form>
+                    {% if is_in_wishlist %}
+                    <!-- If product is already in the wishlist, show "Remove from Wishlist" -->
+                    <form method="post" action="{% url 'remove_from_wishlist' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Remove from Wishlist</button>
+                    </form>
+                    {% else %}
+                        <!-- If product is not in the wishlist, show "Add to Wishlist" -->
+                        <form method="post" action="{% url 'add_to_wishlist' product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">Add to Wishlist</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <!-- Reviews -->
+                <h3>Reviews:</h3>
+                {% if highest_review %}
+                    <div class="review">
+                        <strong>{{ highest_review.user.username }}</strong>
+                        <p>Rating: {{ highest_review.rating }} stars</p>
+                        <p>{{ highest_review.comment }}</p>
+                        <p class="review-meta"><em>Reviewed on {{ highest_review.created_at }}</em></p>
+                    </div>
+                {% else %}
+                    <p>No reviews yet for this product.</p>
+                {% endif %}
+
+                <!-- Review form -->
+                {% if user.is_authenticated %}
+                <h3>Add Your Review</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="star-rating">
+                        <label class="star" data-value="1">&#9733;</label>
+                        <label class="star" data-value="2">&#9733;</label>
+                        <label class="star" data-value="3">&#9733;</label>
+                        <label class="star" data-value="4">&#9733;</label>
+                        <label class="star" data-value="5">&#9733;</label>
+                    </div>
+                    <input type="hidden" name="rating" id="rating-input" value="0" />
+
+                    <div class="form-group">
+                        {{ review_form.comment }}
+                    </div>
+
+                    <div class="form-submit-btn">
+                        <button type="submit" class="btn">Submit Review</button>
+                    </div>
+                </form>
+                {% else %}
+                    <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    document.querySelectorAll('.star-rating .star').forEach(star => {
+        star.addEventListener('click', function () {
+            const ratingValue = this.getAttribute('data-value');
+            document.getElementById('rating-input').value = ratingValue;
+
+            // Highlight stars up to the clicked one
+            document.querySelectorAll('.star-rating .star').forEach(star => {
+                if (parseInt(star.getAttribute('data-value')) <= ratingValue) {
+                    star.style.color = '#f1c40f'; // Highlight selected and lower stars
+                } else {
+                    star.style.color = '#ccc'; // Reset color for higher stars
+                }
+            });
+        });
+    });
+
+    // Initialize stars based on pre-set rating value
+    const initialRating = document.getElementById('rating-input').value;
+    if (initialRating) {
+        document.querySelectorAll('.star-rating .star').forEach(star => {
+            if (parseInt(star.getAttribute('data-value')) <= initialRating) {
+                star.style.color = '#f1c40f';
+            } else {
+                star.style.color = '#ccc';
+            }
+        });
+    }
+</script>
+
+{% endblock %}

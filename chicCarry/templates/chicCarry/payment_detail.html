@@ -1,0 +1,109 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Transaction</title>
+    <style>
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #fb6f92;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .payment-details {
+            background-color: #ff8fab;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .payment-details h2 {
+            color: #fff;
+            margin-top: 0;
+        }
+
+        .payment-details p {
+            color: #333;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .payment-details strong {
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #fb6f92;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff8fab;
+        }
+
+        .btn-primary {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Transaction</h1>
+
+        <!-- Check if payment is available and completed -->
+        {% if payment %}
+            <div class="payment-details">
+                <h2>Payment ID: {{ payment.id }}</h2>
+                <p><strong>User:</strong> {{ payment.user.username }}</p>
+                <p><strong>Address:</strong> {% if payment.address %}{{ payment.address }}{% else %}Not provided{% endif %}</p>
+                <p><strong>Amount:</strong> ${{ payment.amount }}</p>
+                <p><strong>Payment Method:</strong> {{ payment.get_payment_method_display }}</p>
+                <p><strong>Status:</strong> {{ payment.get_status_display }}</p>
+                <p><strong>Transaction ID:</strong> {% if payment.transaction_id %}{{ payment.transaction_id }}{% else %}Not available{% endif %}</p>
+                <p><strong>Date:</strong> {{ payment.created_at|date:"F j, Y, g:i a" }}</p>
+            </div>
+        {% else %}
+            <p>This payment has not been completed or does not exist.</p>
+        {% endif %}
+
+        <a href="{% url 'payment_list' %}" class="btn btn-primary">Go Back to List</a>
+    </div>
+</body>
+</html>
+
+{% endblock content %}

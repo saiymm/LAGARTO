@@ -1,0 +1,180 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .checkout-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .cart-summary {
+            margin-bottom: 20px;
+        }
+
+        .cart-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        td {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .product-image img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            text-align: right;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .checkout-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            display: inline-block;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            border: #333;
+        }
+
+        .checkout-btn:hover {
+            background-color: #e05a7b;
+        }
+
+        .checkout-btn:active {
+            background-color: #ff8fab;
+        }
+
+        .cart-summary table th,
+        .cart-summary table td {
+            border: 1px solid #333;
+        }
+
+        .cart-summary table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .cart-summary table td {
+            background-color: #f9f9f9;
+        }
+
+        .total-price {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <h2>Checkout</h2>
+
+        <div class="cart-summary">
+            <h3>Your Cart</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.cart_items.all %}
+                        <tr>
+                            <td class="product-image">
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            </td>
+                            <td>{{ item.product.name }}</td>
+                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.total_price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="total-price">
+            <h3>Total Price: ${{ total_price }}</h3>
+        </div>
+
+        <div class="checkout-actions">
+            <form action="{% url 'payment' %}" method="get">
+                <button type="submit" class="checkout-btn">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

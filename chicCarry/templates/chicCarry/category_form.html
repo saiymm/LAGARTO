@@ -1,0 +1,60 @@
+{% extends 'chicCarry/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+
+        .content {
+            margin-left: 180px;
+            padding-left: 20px;
+        }
+
+        .container {
+            margin: 20px auto;
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        textarea{
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+    </style>
+</head>
+<body class="content">
+    <div class="container">
+        <h1>Add a New Category</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Save</button>
+            <a  class="btn btn-secondary" href="{% url 'category-list' %}" class="cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock content %}

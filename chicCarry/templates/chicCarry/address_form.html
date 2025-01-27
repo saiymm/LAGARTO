@@ -1,0 +1,204 @@
+{% extends 'chicCarry/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a New Address</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .message-list {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .message-list li {
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #ff8fab;
+      color: #fff;
+      border-radius: 4px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-field {
+      margin-bottom: 15px;
+    }
+
+    .form-field label {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: #fb6f92;
+      outline: none;
+    }
+
+
+    .form-field button {
+      padding: 10px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #fb6f92;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .form-field button:hover {
+      background-color: #e05a7b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create/Update Address</h1>
+
+    {% if messages %}
+      <ul class="message-list">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-field">
+        <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+        {{ form.full_name }}
+        {% if form.full_name.errors %}
+          <ul class="error-list">
+            {% for error in form.full_name.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.street_address.id_for_label }}">Street Address</label>
+        {{ form.street_address }}
+        {% if form.street_address.errors %}
+          <ul class="error-list">
+            {% for error in form.street_address.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.city.id_for_label }}">City</label>
+        {{ form.city }}
+        {% if form.city.errors %}
+          <ul class="error-list">
+            {% for error in form.city.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.state.id_for_label }}">State</label>
+        {{ form.state }}
+        {% if form.state.errors %}
+          <ul class="error-list">
+            {% for error in form.state.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.postal_code.id_for_label }}">Postal Code</label>
+        {{ form.postal_code }}
+        {% if form.postal_code.errors %}
+          <ul class="error-list">
+            {% for error in form.postal_code.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.country.id_for_label }}">Country</label>
+        {{ form.country }}
+        {% if form.country.errors %}
+          <ul class="error-list">
+            {% for error in form.country.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+        {{ form.phone_number }}
+        {% if form.phone_number.errors %}
+          <ul class="error-list">
+            {% for error in form.phone_number.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <button type="submit">Save Address</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+{% endblock %}

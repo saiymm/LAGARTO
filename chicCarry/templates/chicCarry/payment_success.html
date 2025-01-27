@@ -1,0 +1,84 @@
+{% extends 'chicCarry/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .success-container {
+      background-color: #fff;
+      width: 80%;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #4CAF50;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    li {
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 1.1em;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-container">
+    <h2>Payment Successful!</h2>
+    <p>Your payment for Order #{{ payment.cart.id }} has been successfully processed.</p>
+    <p><strong>Total Amount Paid:</strong> ${{ total_price }}</p>
+
+    <h3>Order Details:</h3>
+    <ul>
+      {% for item in cart_items %}
+        <li>{{ item.product.name }} - Quantity: {{ item.quantity }} x ${{ item.product.price }}</li>
+      {% endfor %}
+    </ul>
+
+    <p>Thank you for shopping with us!</p>
+    <a href="{% url 'homepage' %}">Return to Home</a>
+  </div>
+</body>
+</html>
+{% endblock %}

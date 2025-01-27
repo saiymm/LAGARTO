@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        /* Footer container */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        /* Column styles */
+        .footer-column {
+            flex: 1;
+            margin-right: 50px;
+        }
+
+        .footer-column:last-child {
+            margin-right: 0;
+        }
+
+        /* Footer headings */
+        .footer-column h3 {
+            margin-top: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Footer links */
+        .footer-column a {
+            color: #bbb;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-column a:hover {
+            color: #fff;
+        }
+
+        /* Small screen responsive */
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-column {
+                margin-bottom: 20px;
+            }
+
+            .footer-column:last-child {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <footer>
+        <!-- First column (e.g., company info) -->
+        <div class="footer-column">
+            <h3>About Us</h3>
+            <p>At Chic Carry, we believe that the perfect accessory can transform any look. Our curated collection of stylish bags and accessories is designed to bring sophistication, functionality, and trendiness to your everyday ensemble. From versatile totes to elegant evening bags, we offer something for every occasion. Explore our collection and elevate your style with Chic Carry!</p>
+        </div>
+
+        <!-- Second column (e.g., quick links) -->
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'user-product-list' %}">Shop</a>
+            <a href="{% url 'aboutpage' %}">About</a>
+            <a href="#">Contact</a>
+        </div>
+
+        <!-- Third column (e.g., contact info) -->
+        <div class="footer-column">
+            <h3>Contact Us</h3>
+            <p>123 Street Name, City, Country</p>
+            <p>Email: info@example.com</p>
+            <p>Phone: (123) 456-7890</p>
+        </div>
+    </footer>
+</body>
+</html>

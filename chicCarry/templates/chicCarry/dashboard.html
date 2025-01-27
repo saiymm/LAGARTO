@@ -1,0 +1,185 @@
+{% extends 'chicCarry/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+
+        .content {
+            margin-left: 180px;
+            padding-left: 20px;
+        }
+
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .stat-boxes {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            width: 23%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-box h4 {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .stat-box p {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 20px;
+            text-align: center;
+            border-bottom: 1px solid #f1f1f1;
+        }
+ 
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .stat-boxes {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-box {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="content">
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Stat Boxes -->
+        <div class="stat-boxes">
+            <div class="stat-box">
+                <h4>Total Orders</h4>
+                <p>{{ payments.count }}</p>
+            </div>
+            <div class="stat-box">
+                <h4>Total Amount</h4>
+                <p>${{ total_amount }}</p>
+            </div>
+            <div class="stat-box">
+                <h4>Average Rating</h4>
+                <p>{{ average_rating }}</p>
+            </div>
+            <div class="stat-box">
+                <h4>Total Reviews</h4>
+                <p>{{ reviews.count }}</p>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <h2>All Orders</h2>
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Transaction ID</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ payment.id }}</td>
+                    <td>{{ payment.user.username }}</td>
+                    <td>${{ payment.amount }}</td>
+                    <td>{{ payment.status }}</td>
+                    <td>{{ payment.payment_method }}</td>
+                    <td>{{ payment.transaction_id }}</td>
+                    <td>{{ payment.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Reviews Table -->
+        <h2>All Reviews</h2>
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Review ID</th>
+                    <th>Product</th>
+                    <th>User</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review.id }}</td>
+                    <td>{{ review.product.name }}</td>
+                    <td>{{ review.user.username }}</td>
+                    <td>{{ review.rating }}</td>
+                    <td>{{ review.comment }}</td>
+                    <td>{{ review.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock content %}

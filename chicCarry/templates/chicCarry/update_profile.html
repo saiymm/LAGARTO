@@ -1,0 +1,285 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        /* Update Profile Container */
+        .update-profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Title Styling */
+        .update-profile-container h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        /* Form Styling */
+        .update-profile-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Field Wrapper */
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Label Styling */
+        .form-group label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            flex: 0 0 15%; /* Fixed width for labels */
+            text-align: center;
+        }
+
+        /* Input Fields */
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group textarea {
+            flex: 1; /* Input fields take remaining space */
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Profile Picture Input Styling */
+        .form-group input[type="file"] {
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            background-color: #f0f0f0;
+        }
+
+        /* Button Group */
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* Submit and Cancel Buttons */
+        .button-group button {
+            padding: 10px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .button-group button:hover {
+            transform: scale(1.02);
+        }
+
+        /* Save Button */
+        .btn-primary {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #fb6f92;
+        }
+
+        /* Cancel Button */
+        .btn-secondary {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #fb6f92;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column; /* Stack label and input vertically */
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                text-align: left;
+                flex: none;
+                margin-bottom: 5px;
+            }
+
+            .update-profile-container button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        .profile-picture-wrapper {
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        margin: 0 auto; /* Center the wrapper */
+    }
+
+    .profile-picture-wrapper img.rounded-circle {
+        width: 200px; /* Set desired width */
+        height: 200px; /* Set desired height */
+        border-radius: 50%; /* Make it round */
+        object-fit: cover; /* Ensure the image fills the circle */
+        cursor: pointer;
+        border: 3px solid #ddd; /* Add a subtle border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add slight shadow for better visibility */
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .profile-picture-wrapper img.rounded-circle:hover {
+        transform: scale(1.05); /* Add a zoom effect on hover */
+        border-color: #007bff; /* Change border color on hover */
+    }
+
+    .btn-profile {
+        margin-top: 10px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        width: 100px;
+        text-align: center;
+        display: block; /* Makes the button behave like a block element */
+        margin-left: auto; /* Center the button horizontally */
+        margin-right: auto; /* Center the button horizontally */
+    }
+
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .profile-picture-wrapper img.rounded-circle {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn-secondary {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="update-profile-container">
+        <h2>Update Your Profile</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="form-group text-center">
+                <div class="profile-picture-wrapper">
+                    {% if user.customer.profile_picture %}
+                        <img id="profile-pic-preview" 
+                             src="{{ user.customer.profile_picture.url }}" 
+                             alt="Profile Picture" 
+                             class="rounded-circle">
+                    {% else %}
+                        <img id="profile-pic-preview" 
+                             src="{% static 'images/avatar.jpg' %}" 
+                             alt="Default Profile Picture" 
+                             class="rounded-circle">
+                    {% endif %}
+                    <input id="id_profile_picture" name="profile_picture" type="file" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                </div>
+            </div>
+            
+            <button type="button" class="btn-profile" onclick="document.getElementById('id_profile_picture').click();">
+                Change Picture
+            </button>
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                {{ form.username }}
+            </div>
+
+            <!-- First Name -->
+            <div class="form-group">
+                <label for="id_first_name">First Name</label>
+                {{ form.first_name }}
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+                <label for="id_last_name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+            </div>
+
+
+
+            <!-- Button Group -->
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Save</button>
+                <button type="button" class="btn-secondary" onclick="window.location.href='{% url 'profile' %}'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const preview = document.getElementById('profile-pic-preview');
+            preview.src = e.target.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock %}

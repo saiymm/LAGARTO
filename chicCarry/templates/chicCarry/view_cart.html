@@ -1,0 +1,293 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-container {
+            background-color: #fff;
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 40px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #f1f1f1;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        td {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .right-aligned {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item .product-name {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 0.9rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background-color: #ff8fab;
+        }
+
+        .quantity-display {
+            margin: 0 15px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+
+        .remove-btn button {
+            padding: 12px;
+            background-color: #e74c3c;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-btn button:hover {
+            background-color: #ff8fab;
+        }
+
+        .total-price {
+            font-size: 1.7rem;
+            color: #333;
+            text-align: right;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #888;
+        }
+
+        .continue-shopping {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .continue-shopping-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .continue-shopping-btn:hover {
+            background-color: #ff8fab;
+            text-decoration: none;
+            color: #fff;
+        }
+        
+
+        .checkout-btn-container {
+            text-align: end;
+            margin-top: 30px;
+        }
+
+        .checkout-btn-container a,button {
+            padding: 15px;
+            background-color: #333;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn-container a:hover {
+            background-color: #ff8fab;
+        }
+        .checkout-btn-container button:hover {
+            background-color: #ff8fab;
+        }
+
+        .checkout-btn-container button:disabled {
+            background-color: #b2b2b2;
+            cursor: not-allowed;
+        }
+
+        hr {
+            border: 0;
+            border-top: 2px solid #f1f1f1;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cart-container">
+        <h2>Your Shopping Cart</h2>
+
+        {% if cart %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="right-aligned">Price</th>
+                            <th class="right-aligned">Quantity</th>
+                            <th class="right-aligned">Total</th>
+                            <th class="right-aligned">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                            <tr>
+                                <td>
+                                    <div class="cart-item">
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                        <p class="product-name">{{ item.product.name }}</p>
+                                    </div>
+                                </td>
+                                <td class="right-aligned">${{ item.product.price }}</td>
+                                <td class="right-aligned">
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 'decrease')">-</button>
+                                        <span class="quantity-display" id="quantity-{{ item.id }}">{{ item.quantity }}</span>
+                                        <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 'increase')">+</button>
+                                    </div>
+                                    <form action="{% url 'update_cart_quantity' pk=item.id %}" method="POST" class="quantity-form" id="form-{{ item.id }}" style="display:none;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="quantity" id="quantity-input-{{ item.id }}" value="{{ item.quantity }}">
+                                    </form>
+                                </td>
+                                <td class="right-aligned">${{ item.total_price }}</td>
+                                <td class="right-aligned">
+                                    <form action="{% url 'remove_from_cart' item.id %}" method="POST" class="remove-btn">
+                                        {% csrf_token %}
+                                        <button type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <h3 class="total-price">Total Price: ${{ total_price }}</h3>
+        {% else %}
+            <p class="empty-cart">Your cart is empty!</p>
+        {% endif %}
+
+        <div class="checkout-btn-container">
+            {% if empty_cart %}
+              <button class="checkout-btn" disabled>Proceed to Checkout</button>
+            {% else %}
+              <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+            {% endif %}
+        </div>
+
+        <div class="continue-shopping">
+            <a href="{% url 'user-product-list' %}" class="continue-shopping-btn">Continue Shopping</a>
+        </div>
+    </div>
+
+    {% block scripts %}
+    <script>
+        function updateQuantity(itemId, action) {
+            var quantityElement = document.getElementById('quantity-' + itemId);
+            var form = document.getElementById('form-' + itemId);
+            var quantityInput = document.getElementById('quantity-input-' + itemId);
+            var currentQuantity = parseInt(quantityElement.textContent);
+            
+            if (action === 'increase') {
+                currentQuantity++;
+            } else if (action === 'decrease' && currentQuantity > 1) {
+                currentQuantity--;
+            }
+
+            quantityElement.textContent = currentQuantity;
+            quantityInput.value = currentQuantity;
+
+            form.submit();
+        }
+    </script>
+    {% endblock %}
+
+</body>
+</html>
+{% endblock %}

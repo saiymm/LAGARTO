@@ -1,0 +1,285 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chic Carry - Stylish Bags & Accessories</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #afa9a9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: url("{% static 'images/3.jpg' %}") no-repeat center center fixed;
+            background-size: cover; /* Ensures the image covers the entire container */
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #fb6f92;
+            text-decoration: none;
+        }
+
+        .content-main {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 8px;
+           
+        }
+
+        .section-title {
+            color: #333;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+           
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .product-item {
+            background-color: #fff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 250px;
+            box-shadow: 0 2px 5px rgba(0, 0.8, 0.7, 0.7);
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            
+        }
+
+        .product-item img {
+            width: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+            height: 200px;
+        }
+
+        .product-item h3 {
+            color: #333;
+            font-size: 1.2em;
+            margin: 15px 0 10px;
+        }
+
+        .product-item p {
+            color: #333;
+            font-size: 0.9em;
+            margin: 0 0 10px;
+        }
+
+        .product-item .price {
+            font-weight: bold;
+            color: #fb6f92;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .view-details-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background-color: #ff8fab;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 8px;
+            
+        }
+
+        .featured-products {
+            background-color: #fff;
+        }
+
+        .new-arrivals {
+            background-color: #fff;
+        }
+
+        .customer-reviews {
+            background-color: #fff;
+        }
+
+        .all-products {
+            background-color: #fff;
+        }
+
+        .review-item {
+            background-color: #fff;
+            border: 1px solid #ff8fab;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-text {
+            font-style: italic;
+            color: #333;
+        }
+
+        .review-author, .review-product, .review-rating {
+            font-size: 0.9em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chic Carry</h1>
+        <p>Stylish Bags & Accessories</p>
+    </header>
+    
+    <nav>
+        <a href="#featured">Featured</a>
+        <a href="#new-arrivals">New Arrivals</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#shop-all">Shop All</a>
+    </nav>
+
+    <main class="content-main">
+        
+
+        <!-- Featured Products Section -->
+        <section id="featured" class="section featured-products">
+            <h1 class="section-title">Explore Our Stylish Collection of Bags & Accessories</h1>
+            <br>
+            <h2 class="section-title">Featured Products</h2>
+            <div class="product-list">
+                {% if highest_rated_product %}
+                <div class="product-item">
+                    {% if highest_rated_product.image %}
+                        <img src="{{ highest_rated_product.image.url }}" alt="{{ highest_rated_product.name }}">
+                    {% else %}
+                        <img src="{% static 'default_product_image.jpg' %}" alt="No image available">
+                    {% endif %}
+                    <h3>{{ highest_rated_product.name }}</h3>
+                    <p>Average Rating: {{ highest_rated_product.average_rating|floatformat:1 }}</p>
+                    <p class="price">${{ highest_rated_product.price }}</p>
+                    <a href="{% url 'user-product-detail' highest_rated_product.id %}" class="view-details-btn">View Details</a>
+                </div>
+            {% else %}
+                <p>No ratings available for any products yet.</p>
+            {% endif %}
+            </div>
+        </section>
+
+        <!-- New Arrivals Section -->
+        <section id="new-arrivals" class="section new-arrivals">
+            <h1 class="section-title">Explore Our Stylish Collection of Bags & Accessories</h1>
+            <br>
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="product-list">
+                {% for product in recent_products %}
+                    <div class="product-item">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{% static 'default_product_image.jpg' %}" alt="No image available">
+                        {% endif %}
+                        <h3>{{ product.name }}</h3>
+                        <p>Total Rating: {{ product.total_rating|default:"No ratings yet" }}</p>
+
+                        <p class="price">${{ product.price }}</p>
+                        <a href="{% url 'user-product-detail' product.id %}" class="view-details-btn">View Details</a>
+                    </div>
+                {% empty %}
+                    <p>No new arrivals to display at the moment.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section id="reviews" class="section customer-reviews">
+            <h1 class="section-title">Explore Our Stylish Collection of Bags & Accessories</h1>
+            <br>
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="reviews">
+                {% for review in reviews %}
+                <div class="review-item">
+                    <p class="review-text">"{{ review.comment }}"</p>
+                    <p class="review-author">- {{ review.user.username }}</p>
+                    <p class="review-product">For: <strong>{{ review.product.name }}</strong></p>
+                    <p class="review-rating">Rating: {{ review.rating }} / 5</p>
+                </div>
+            {% empty %}
+                <p>No reviews available yet.</p>
+            {% endfor %}
+            </div>
+        </section>
+
+        <!-- All Products Section -->
+        <section id="shop-all" class="section all-products">
+            <h1 class="section-title">Explore Our Stylish Collection of Bags & Accessories</h1>
+            <br>
+            <h2 class="section-title">Shop All Products</h2>
+            <div class="product-list">
+                {% for product in products %}
+                    <div class="product-item">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <h3>{{ product.name }}</h3>
+                        <p>Total Rating: {{ product.total_rating }}</p>
+                        <p class="price">${{ product.price }}</p>
+                        <a href="{% url 'user-product-detail' product.id %}" class="view-details-btn">View Details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+{% endblock content %}

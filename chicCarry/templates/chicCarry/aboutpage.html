@@ -1,0 +1,183 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Chic Carry</title>
+    
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* About Page Container */
+        .about-page {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 40px 30px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .about-page:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* About Title */
+        .about-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #007b5e;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        /* Description Paragraph Styling */
+        .about-description {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007b5e;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .objectives-list {
+            list-style-type: disc;
+            margin-left: 30px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .objectives-list li {
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .objectives-list li:hover {
+            color: #007b5e;
+            cursor: pointer;
+        }
+
+        /* Button Styling */
+        .section-button {
+            display: inline-block;
+            background-color: #007b5e;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-button:hover {
+            background-color: #005a42;
+        }
+
+        /* Optional: Heading and List Customizations */
+        h2 {
+            margin: 20px 0;
+            color: #007b5e;
+        }
+
+        /* Add responsive design for mobile view */
+        @media (max-width: 768px) {
+            .about-page {
+                padding: 20px;
+            }
+
+            .about-title {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+
+            .about-description, .section-description, .objectives-list {
+                font-size: 16px;
+            }
+
+            .about-description {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- About Page Content -->
+    <div class="about-page">
+        <h1 class="about-title">About Us</h1>
+        <p class="about-description">
+            Welcome to Chic Carry, your go-to destination for trendy and stylish bags and accessories. Our mission is to provide high-quality products that reflect the latest fashion trends, while ensuring you have a seamless and enjoyable shopping experience.
+        </p>
+
+        <!-- Executive Summary Section -->
+        <div class="section">
+            <h2 class="section-title">I. Executive Summary</h2>
+            <p class="section-description">
+                The Chic Carry website is designed to captivate customers looking for stylish bags and accessories. Our platform combines elegance, ease of use, and reliability to ensure customers feel confident in choosing us for their fashion needs.
+            </p>
+        </div>
+
+        <!-- Problem Overview Section -->
+        <div class="section">
+            <h2 class="section-title">II. Problem Overview</h2>
+            <p class="section-description">
+                Many customers struggle to find a trustworthy online store that offers trendy bags and accessories. Chic Carry aims to solve this issue by creating a trusted platform where quality meets style, making it easier for customers to find what they need.
+            </p>
+        </div>
+
+        <!-- Proposed Solution Section -->
+        <div class="section">
+            <h2 class="section-title">III. Proposed Solution and Objectives</h2>
+            <ul class="objectives-list">
+                <li>Increase online visibility to attract more visitors.</li>
+                <li>Provide an enjoyable shopping experience that keeps customers coming back.</li>
+                <li>Create a user-friendly, easy-to-navigate website layout.</li>
+            </ul>
+            <a href="#" class="section-button">Learn More</a>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock content %}

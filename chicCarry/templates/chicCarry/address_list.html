@@ -1,0 +1,88 @@
+{% extends 'chicCarry/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Addresses</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .container a{
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 12px;
+      margin: 10px 0;
+      background-color: #f0f0f0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    li a:hover {
+      color: #0056b3;
+    }
+
+    .address-info {
+      font-size: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your Addresses</h1>
+    <a href="{% url 'address_create' %}">Add+</a>
+    <ul>
+      {% for address in addresses %}
+        <li>
+          <span class="address-info">
+            {{ address.full_name }} - {{ address.street_address }} - {{ address.city }}
+          </span>
+          <a href="{% url 'address_edit' address.id %}">Edit</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
+{% endblock %}

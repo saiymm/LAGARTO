@@ -1,0 +1,137 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed Payments</title>
+    <style>
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-list {
+            list-style-type: none;
+            padding: 0;
+            
+        }
+
+        .payment-list li {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .payment-list li:hover {
+            background-color: #fb6f92;
+            text-decoration: none;
+        }
+
+        .payment-list h3 {
+            color: #fff;
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .payment-list p {
+            color: #fff;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+
+        .payment-list a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .payment-list a:hover {
+            text-decoration: none;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #fb6f92;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff8fab;
+        }
+
+        .btn-primary {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Completed Payments</h1>
+    
+        <!-- Display a list of completed payments -->
+        {% if payments %}
+            <div class="payment-list">
+                <ul>
+                    {% for payment in payments %}
+                        <li>
+                            <!-- Make the payment ID clickable -->
+                            <a href="{% url 'payment_detail' payment.id %}">
+                                <h3>Payment ID: {{ payment.id }}</h3>
+                           
+                            <p><strong>User:</strong> {{ payment.user.username }}</p>
+                            <p><strong>Amount:</strong> ${{ payment.amount }}</p>
+                            <p><strong>Payment Method:</strong> {{ payment.get_payment_method_display }}</p>
+                            <p><strong>Status:</strong> {{ payment.get_status_display }}</p>
+                            <p><strong>Transaction ID:</strong> {% if payment.transaction_id %}{{ payment.transaction_id }}{% else %}Not available{% endif %}</p>
+                            <p><strong>Date:</strong> {{ payment.created_at|date:"F j, Y, g:i a" }}</p>
+                            <hr>
+                        </li>
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No completed payments found.</p>
+        {% endif %}
+    
+        <a href="{% url 'homepage' %}" class="btn btn-primary">Go Back to Home</a>
+    </div>
+</body>
+</html>
+{% endblock content %}

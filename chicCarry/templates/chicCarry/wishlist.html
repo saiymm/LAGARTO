@@ -1,0 +1,130 @@
+{% extends 'chicCarry/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Wishlist</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .wishlist-container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .wishlist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .wishlist-item:hover {
+      background-color: #f9f9f9;
+    }
+
+    .wishlist-item h3 {
+      font-size: 1.8em;
+      color: #333;
+      margin: 0;
+    }
+
+    .wishlist-item p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .wishlist-item a {
+      text-decoration: none;
+      color: #ff8fab;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .wishlist-item a:hover {
+      color: #fb6f92;
+    }
+
+    .empty-wishlist {
+      text-align: center;
+      font-size: 1.2em;
+      color: #555;
+      margin-top: 40px;
+    }
+
+    .wishlist-item img {
+      max-width: 120px;
+      margin-right: 20px;
+      border-radius: 8px;
+    }
+
+    .wishlist-item-details {
+      flex: 1;
+    }
+
+    .wishlist-item-price {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #fb6f92;
+    }
+
+    .wishlist-container ul {
+      padding: 0;
+      list-style-type: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wishlist-container">
+  <h1>Your Wishlist</h1>
+
+  {% if wishlist_items %}
+    <ul>
+      {% for item in wishlist_items %}
+        <li class="wishlist-item">
+          <!-- Display product image -->
+          <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+
+          <div class="wishlist-item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p>{{ item.product.description }}</p>
+            <p class="wishlist-item-price">${{ item.product.price|floatformat:2 }}</p>
+            <a href="{% url 'user-product-detail' item.product.id %}">View Product</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-wishlist">Your wishlist is empty. Start adding products to your wishlist!</p>
+  {% endif %}
+</div>
+
+</body>
+</html>
+
+{% endblock %}
