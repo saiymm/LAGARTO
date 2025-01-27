@@ -1,56 +1,30 @@
 from datetime import timezone
-from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import *
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView
-from django.contrib.auth import login
 from .forms import CustomAuthenticationForm
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
 from django.contrib.auth import logout
-from django.views.generic import CreateView
 from .forms import CustomUserCreationForm 
 from .forms import CustomUserChangeForm 
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth import login
 from django.contrib.auth.views import PasswordChangeView
-from django.urls import reverse_lazy
 from django.views.generic import ListView, RedirectView
 from django.views.generic.edit import DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Cart, CartItem, Product
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import *
 from django.views import View
-from .models import Cart, CartItem
-from django.http import Http404
-from django.views import View
-from .models import CartItem
-from django.views import View
-from django.shortcuts import render
 from django.db.models import Avg, Sum
 from .models import Payment, Review
-from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import DetailView  
-from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView
-from django.shortcuts import render, redirect
 from .forms import *
-from .models import Address
+from .models import *
 from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse
-from django.db.models import Avg 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
 # Use timezone.now() to get the current time with respect to the timezone
